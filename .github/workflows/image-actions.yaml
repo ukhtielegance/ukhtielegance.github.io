@@ -1,0 +1,24 @@
+name: Various checks
+
+on: [push]
+
+jobs:
+  image-optimizer:
+    name: Run image optimizer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: VinnyBabuManjaly/copyright-action@v1.0.0
+        with:
+          CopyrightString: 'Copyright check\nAll rights reserved (c)\n'
+          FileType: '.html, .css, .js'
+          IgnorePath: '.github, .git, .vscode'
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit copyright added file changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          commit_message: Add copyright
+          commit_user_name: Copyright add bot

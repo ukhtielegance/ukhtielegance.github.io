@@ -1,24 +1,35 @@
-name: Various checks
+name: Optimize Images
 
 on: [push]
+# Change this later
+# on:
+#   push:
+#     paths:
+#       - '**.jpg'
+#       - '**.jpeg'
+#       - '**.png'
+#       - '**.webp'
 
 jobs:
   image-optimizer:
-    name: Run image optimizer
+    name: Image actions
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - uses: VinnyBabuManjaly/copyright-action@v1.0.0
-        with:
-          CopyrightString: 'Copyright check\nAll rights reserved (c)\n'
-          FileType: '.html, .css, .js'
-          IgnorePath: '.github, .git, .vscode'
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Commit copyright added file changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Compress Images
+        uses: calibreapp/image-actions@main
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          commit_message: Add copyright
-          commit_user_name: Copyright add bot
+          compressOnly: ${{ github.event_name != 'pull_request' }}
+      - name: Create Pull Request
+        # If it's not a Pull Request then commit any changes as a new PR.
+        if: |
+          github.event_name != 'pull_request' &&
+          steps.calibre.outputs.markdown != ''
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: Auto Compress Images
+          branch-suffix: timestamp
+          commit-message: Compress Images
+          body: ${{ steps.calibre.outputs.markdown }}

@@ -1,1 +1,33 @@
+
+# Modified .gitignore from https://gist.github.com/salcode/10017553
+
+# Editor config
 .vscode/
+
+# Ignore all files starting with ~
+~*
+
+# Ignore single letter files as well
+?.*
+
+# Ignore Editor files
+*.sublime-project
+*.sublime-workspace
+
+# Ignore log files and databases
+*.log
+*.sql
+*.sqlite
+
+# Ignore packaged files
+*.7z
+*.gz
+*.rar
+*.tar
+*.zip
+
+# Ignore private/secret files
+*.der
+*.key
+*.pem
+*.env

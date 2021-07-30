@@ -1,0 +1,58 @@
+name: Check presense of license
+
+on: [push]
+
+jobs:
+  image-optimizer:
+    name: Copyright license
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: copyright for html
+        uses: VinnyBabuManjaly/copyright-action@v1.0.0
+        with:
+          CopyrightString: |
+            <!-- Copyright (C) 2021 ukhtielegance
+
+            This program is free software: you can redistribute it and/or modify
+            it under the terms of the GNU Affero General Public License as published
+            by the Free Software Foundation, either version 3 of the License, or
+            (at your option) any later version.
+
+            This program is distributed in the hope that it will be useful,
+            but WITHOUT ANY WARRANTY; without even the implied warranty of
+            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+            GNU Affero General Public License for more details.
+
+            You should have received a copy of the GNU Affero General Public License
+            along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
+          FileType: '.html'
+          IgnorePath: '.github, .git, .vscode'
+
+      - name: copyright for css and js
+        uses: VinnyBabuManjaly/copyright-action@v1.0.0
+        with:
+          CopyrightString: |
+            /* Copyright (C) 2021 ukhtielegance
+
+            This program is free software: you can redistribute it and/or modify
+            it under the terms of the GNU Affero General Public License as published
+            by the Free Software Foundation, either version 3 of the License, or
+            (at your option) any later version.
+
+            This program is distributed in the hope that it will be useful,
+            but WITHOUT ANY WARRANTY; without even the implied warranty of
+            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+            GNU Affero General Public License for more details.
+
+            You should have received a copy of the GNU Affero General Public License
+            along with this program.  If not, see <https://www.gnu.org/licenses/>. */
+          FileType: '.css, .js'
+          IgnorePath: '.github, .git, .vscode'
+
+      - name: Commit copyright added file changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Add copyright
+          commit_user_name: Copyright add bot

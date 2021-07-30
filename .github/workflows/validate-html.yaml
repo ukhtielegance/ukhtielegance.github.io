@@ -1,0 +1,16 @@
+name: HTML code validator
+
+on: [push]
+
+jobs:
+  image-optimizer:
+    name: Validate HTML code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: HTML5 Validator
+        uses: Cyb3r-Jak3/html5validator-action@v0.6.1
+        with:
+          root: .
+          blacklist: temp/
